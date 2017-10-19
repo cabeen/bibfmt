@@ -1,0 +1,421 @@
+entries:
+    article-crossref:
+        author:
+        -   first: L[eslie]
+            last: Aamport
+            middle: A.
+        crossref: WHOLE-JOURNAL
+        key: ''
+        note: This is a cross-referencing ARTICLE entry
+        pages: 73+
+        title: The Gnats and Gnus Document Preparation System
+        type: ARTICLE
+    article-full:
+        author:
+        -   first: L[eslie]
+            last: Aamport
+            middle: A.
+        journal: \mbox{G-Animal's} Journal
+        month: July
+        note: This is a full ARTICLE entry
+        number: '7'
+        pages: 73+
+        title: The Gnats and Gnus Document Preparation System
+        type: ARTICLE
+        volume: '41'
+        year: '1986'
+    article-minimal:
+        author:
+        -   first: L[eslie]
+            last: Aamport
+            middle: A.
+        journal: \mbox{G-Animal's} Journal
+        title: The Gnats and Gnus Document Preparation System
+        type: ARTICLE
+        year: '1986'
+    book-crossref:
+        crossref: whole-set
+        edition: Second
+        note: This is a cross-referencing BOOK entry
+        series: The Art of Computer Programming
+        title: Seminumerical Algorithms
+        type: BOOK
+        volume: '2'
+        year: '{\noopsort{1973c}}1981'
+    book-full:
+        address: Reading, Massachusetts
+        author:
+        -   first: Donald
+            last: Knuth
+            middle: E.
+        edition: Second
+        month: 10~January
+        note: This is a full BOOK entry
+        publisher: Addison-Wesley
+        series: The Art of Computer Programming
+        title: Seminumerical Algorithms
+        type: BOOK
+        volume: '2'
+        year: '{\noopsort{1973c}}1981'
+    book-minimal:
+        author:
+        -   first: Donald
+            last: Knuth
+            middle: E.
+        publisher: Addison-Wesley
+        title: Seminumerical Algorithms
+        type: BOOK
+        year: '{\noopsort{1973c}}1981'
+    booklet-full:
+        address: Stanford, California
+        author:
+        -   first: Jill
+            last: Knvth
+            middle: C.
+        howpublished: Vernier Art Center
+        month: February
+        note: This is a full BOOKLET entry
+        title: The Programming of Computer Art
+        type: BOOKLET
+        year: '1988'
+    booklet-minimal:
+        key: Kn{\printfirst{v}{1987}}
+        title: The Programming of Computer Art
+        type: BOOKLET
+    inbook-crossref:
+        chapter: '1.2'
+        crossref: whole-set
+        edition: Second
+        note: This is a cross-referencing INBOOK entry
+        series: The Art of Computer Programming
+        title: Fundamental Algorithms
+        type: INBOOK
+        volume: '1'
+        year: '{\noopsort{1973b}}1973'
+    inbook-full:
+        address: Reading, Massachusetts
+        author:
+        -   first: Donald
+            last: Knuth
+            middle: E.
+        chapter: '1.2'
+        edition: Second
+        month: 10~January
+        note: This is a full INBOOK entry
+        pages: 10--119
+        publisher: Addison-Wesley
+        series: The Art of Computer Programming
+        title: Fundamental Algorithms
+        type: INBOOK
+        volume: '1'
+        year: '{\noopsort{1973b}}1973'
+    inbook-minimal:
+        author:
+        -   first: Donald
+            last: Knuth
+            middle: E.
+        chapter: '1.2'
+        publisher: Addison-Wesley
+        title: Fundamental Algorithms
+        type: INBOOK
+        year: '{\noopsort{1973b}}1973'
+    incollection-crossref:
+        author:
+        -   first: Daniel
+            last: Lincoll
+            middle: D.
+        crossref: whole-collection
+        note: This is a cross-referencing INCOLLECTION entry
+        pages: 179--183
+        title: Semigroups of Recurrences
+        type: INCOLLECTION
+    incollection-full:
+        address: New York
+        author:
+        -   first: Daniel
+            last: Lincoll
+            middle: D.
+        booktitle: High Speed Computer and Algorithm Organization
+        chapter: '3'
+        edition: Third
+        editor:
+        -   first: David
+            last: Lipcoll
+            middle: J.
+        -   first: D.
+            last: Lawrie
+            middle: H.
+        -   first: A.
+            last: Sameh
+            middle: H.
+        month: September
+        note: This is a full INCOLLECTION entry
+        number: '23'
+        pages: 179--183
+        publisher: Academic Press
+        series: Fast Computers
+        title: Semigroups of Recurrences
+        type: INCOLLECTION
+        year: '1977'
+    incollection-minimal:
+        author:
+        -   first: Daniel
+            last: Lincoll
+            middle: D.
+        booktitle: High Speed Computer and Algorithm Organization
+        publisher: Academic Press
+        title: Semigroups of Recurrences
+        type: INCOLLECTION
+        year: '1977'
+    inproceedings-crossref:
+        author:
+        -   first: Alfred
+            last: Oaho
+            middle: V.
+        -   first: Jeffrey
+            last: Ullman
+            middle: D.
+        -   first: Mihalis
+            last: Yannakakis
+        crossref: whole-proceedings
+        note: This is a cross-referencing INPROCEEDINGS entry
+        organization: ''
+        pages: 133--139
+        title: On Notions of Information Transfer in {VLSI} Circuits
+        type: INPROCEEDINGS
+    inproceedings-full:
+        address: Boston
+        author:
+        -   first: Alfred
+            last: Oaho
+            middle: V.
+        -   first: Jeffrey
+            last: Ullman
+            middle: D.
+        -   first: Mihalis
+            last: Yannakakis
+        booktitle: Proc. Fifteenth Annual ACM Symposium on the Theory of Computing
+        editor:
+        -   first: Wizard
+            last: Oz
+            middle: V.
+        -   first: Mihalis
+            last: Yannakakis
+        month: March
+        note: This is a full INPROCEDINGS entry
+        number: '17'
+        organization: The OX Association for Computing Machinery
+        pages: 133--139
+        publisher: Academic Press
+        series: All ACM Conferences
+        title: On Notions of Information Transfer in {VLSI} Circuits
+        type: INPROCEEDINGS
+        year: '1983'
+    inproceedings-minimal:
+        author:
+        -   first: Alfred
+            last: Oaho
+            middle: V.
+        -   first: Jeffrey
+            last: Ullman
+            middle: D.
+        -   first: Mihalis
+            last: Yannakakis
+        booktitle: Proc. Fifteenth Annual ACM Symposium on the Theory of Computing
+        title: On Notions of Information Transfer in {VLSI} Circuits
+        type: INPROCEEDINGS
+        year: '1983'
+    manual-full:
+        address: Silicon Valley
+        author:
+        -   first: Larry
+            last: Manmaker
+        edition: Silver
+        month: April-May
+        note: This is a full MANUAL entry
+        organization: Chips-R-Us
+        title: The Definitive Computer Manual
+        type: MANUAL
+        year: '1986'
+    manual-minimal:
+        key: Manmaker
+        title: The Definitive Computer Manual
+        type: MANUAL
+    mastersthesis-full:
+        address: English Department
+        author:
+        -   first: '{\''{E}}douard'
+            last: Masterly
+        month: June-August
+        note: This is a full MASTERSTHESIS entry
+        school: Stanford University
+        title: Mastering Thesis Writing
+        type: MASTERSTHESIS
+        year: '1988'
+    mastersthesis-minimal:
+        author:
+        -   first: '{\''{E}}douard'
+            last: Masterly
+        school: Stanford University
+        title: Mastering Thesis Writing
+        type: MASTERSTHESIS
+        year: '1988'
+    misc-full:
+        author:
+        -   first: Joe-Bob
+            last: Missilany
+        howpublished: Handed out at O'Hare
+        month: October
+        note: This is a full MISC entry
+        title: Handing out random pamphlets in airports
+        type: MISC
+        year: '1984'
+    misc-minimal:
+        key: Missilany
+        note: This is a minimal MISC entry
+        type: MISC
+    phdthesis-full:
+        address: Department of French
+        author:
+        -   first: F.
+            last: Phony-Baloney
+            middle: Phidias
+        month: June-August
+        note: This is a full PHDTHESIS entry
+        school: Fanstord University
+        title: 'Fighting Fire with Fire: Festooning {F}rench Phrases'
+        type: PHDTHESIS
+        year: '1988'
+    phdthesis-minimal:
+        author:
+        -   first: F.
+            last: Phony-Baloney
+            middle: Phidias
+        school: Fanstord University
+        title: 'Fighting Fire with Fire: Festooning {F}rench Phrases'
+        type: PHDTHESIS
+        year: '1988'
+    proceedings-full:
+        address: Boston
+        editor:
+        -   first: Wizard
+            last: Oz
+            middle: V.
+        -   first: Mihalis
+            last: Yannakakis
+        month: March
+        note: This is a full PROCEEDINGS entry
+        number: '17'
+        organization: The OX Association for Computing Machinery
+        publisher: Academic Press
+        series: All ACM Conferences
+        title: Proc. Fifteenth Annual Symposium on the Theory of Computing
+        type: PROCEEDINGS
+        year: '1983'
+    proceedings-minimal:
+        key: OX{\singleletter{stoc}}
+        title: Proc. Fifteenth Annual Symposium on the Theory of Computing
+        type: PROCEEDINGS
+        year: '1983'
+    random-note-crossref:
+        key: Volume-2
+        note: Volume~2 is listed under Knuth \cite{book-full}
+        type: MISC
+    techreport-full:
+        address: Computer Science Department, Fanstord, California
+        author:
+        -   first: Tom
+            last: T{\'{e}}rrific
+        institution: Fanstord University
+        month: October
+        note: This is a full TECHREPORT entry
+        number: '7'
+        title: An {$O(n \log n / \! \log\log n)$} Sorting Algorithm
+        type: TECHREPORT
+        year: '1988'
+    techreport-minimal:
+        author:
+        -   first: Tom
+            last: Terrific
+        institution: Fanstord University
+        title: An {$O(n \log n / \! \log\log n)$} Sorting Algorithm
+        type: TECHREPORT
+        year: '1988'
+    unpublished-full:
+        author:
+        -   first: Ulrich
+            last: '{\"{U}}nderwood'
+        -   first: Ned
+            last: '{\~N}et'
+        -   first: Paul
+            last: '{\={P}}ot'
+        month: November, December
+        note: Talk at Fanstord University (this is a full UNPUBLISHED entry)
+        title: Lower Bounds for Wishful Research Results
+        type: UNPUBLISHED
+        year: '1988'
+    unpublished-minimal:
+        author:
+        -   first: Ulrich
+            last: '{\"{U}}nderwood'
+        -   first: Ned
+            last: '{\~N}et'
+        -   first: Paul
+            last: '{\={P}}ot'
+        note: Talk at Fanstord University (this is a minimal UNPUBLISHED entry)
+        title: Lower Bounds for Wishful Research Results
+        type: UNPUBLISHED
+    whole-collection:
+        address: New York
+        booktitle: High Speed Computer and Algorithm Organization
+        edition: Third
+        editor:
+        -   first: David
+            last: Lipcoll
+            middle: J.
+        -   first: D.
+            last: Lawrie
+            middle: H.
+        -   first: A.
+            last: Sameh
+            middle: H.
+        month: September
+        note: This is a cross-referenced BOOK (collection) entry
+        number: '23'
+        publisher: Academic Press
+        series: Fast Computers
+        title: High Speed Computer and Algorithm Organization
+        type: BOOK
+        year: '1977'
+    whole-journal:
+        journal: \mbox{G-Animal's} Journal
+        key: GAJ
+        month: July
+        note: The entire issue is devoted to gnats and gnus (this entry is a cross-referenced
+            ARTICLE (journal))
+        number: '7'
+        type: ARTICLE
+        volume: '41'
+        year: '1986'
+    whole-proceedings:
+        address: Boston
+        booktitle: Proc. Fifteenth Annual ACM Symposium on the Theory of Computing
+        key: OX{\singleletter{stoc}}
+        note: This is a cross-referenced PROCEEDINGS
+        organization: The OX Association for Computing Machinery
+        title: Proc. Fifteenth Annual Symposium on the Theory of Computing
+        type: PROCEEDINGS
+        year: '1983'
+    whole-set:
+        author:
+        -   first: Donald
+            last: Knuth
+            middle: E.
+        note: Seven volumes planned (this is a cross-referenced set of BOOKs)
+        publisher: Addison-Wesley
+        series: Four volumes
+        title: The Art of Computer Programming
+        type: BOOK
+        year: '{\noopsort{1973a}}{\switchargs{--90}{1968}}'
+preamble: \newcommand{\noopsort}[1]{} \newcommand{\printfirst}[2]{#1} \newcommand{\singleletter}[1]{#1}
+    \newcommand{\switchargs}[2]{#2#1}

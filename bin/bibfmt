@@ -1,0 +1,265 @@
+#! /usr/bin/env python
+
+"""
+Clean up a bibtex database to enforce uniform and unique identifiers.  The
+command must include an input bibtex file and desired path for the cleaned
+output bibtex file.  Each entry is processed to use a new identifier, and
+duplicated entries are excluded.  The new identifier can be specified using
+python's dictionary substitution.  The following variables are available:
+
+  bid: the original bibtex identifier
+  year: the year of publication
+  lname: the lowercase last name of the first author
+  name: the capitalized last name of the first author
+  uname: the uppercase last name of the first author
+  lword: the lowercase first word of the title
+  word: the capitalized first word of the title
+  uword: the uppercase first word of the title
+  three: the uppercase three letter identifier of the title
+
+All non-ASCII and non-alphabetic characters are removed, and title-derived
+variables omit a number of stop works (e.g. "a", "an", "the", etc.).  As an
+example, the identifier pattern "%(lname)s%(year)s%(lword)s" produces a format
+similar to Google Scholar:
+
+  @article{langmead2009ultrafast,
+    title={Ultrafast and memory-efficient alignment of 
+      short DNA sequences to the human genome},
+    author={Langmead, Ben and Trapnell, Cole and Pop, Mihai 
+      and Salzberg, Steven L and others},
+    journal={Genome biol},
+    volume={10},
+    number={3},
+    pages={R25},
+    year={2009}
+  }
+
+This tool is based on the very nice package Pybtex (http://pybtex.org).
+
+Author: Ryan Cabeen, cabeen@gmail.com
+"""
+
+from os.path import join
+from os.path import basename
+from os.path import dirname
+from os.path import exists
+from os.path import abspath
+from os import pardir
+from os import environ
+from os import chdir
+from os import listdir
+from os import makedirs
+from os import getcwd
+from shutil import copy
+from sys import path
+from sys import argv
+from sys import exit
+from sys import stdout
+from sys import stderr
+from time import time
+from time import sleep
+from time import strftime
+from re import search
+from re import compile
+from os.path import expanduser
+from optparse import (OptionParser,BadOptionError,AmbiguousOptionError)
+
+root = abspath(join(dirname(argv[0]), pardir))
+path.append(join(root, "lib", "pybtex-0.19"))
+
+stop = ["a", "an", "the"]
+stop += ["and", "but", "or", "for", "nor"]
+stop += ["as", "at", "of", "in", "on", "to", "from", "by", "per", "with"]
+
+regex = compile('[^a-zA-Z0-9 ]')
+
+def scrub(s):
+  return regex.sub("", s.strip().encode('ascii', 'ignore'))
+
+def title2word(title):
+  """compute a three letter identifier for a title"""
+  tokens = scrub(title.lower()).split() + ["none"]
+  word = [token for token in tokens if token not in stop][0]
+  return word 
+
+def title2three(title):
+  """compute a three letter identifier for a title"""
+  # append xyz to very short titles
+  tokens = scrub(title.lower()).split() + ["x", "y", "z"]
+  three = "".join([t[0].upper() for t in tokens if t not in stop][0:3])
+  return three
+
+def assume(test, msg):
+  if not test:
+      print "error: %s" % msg
+      exit(1)
+
+def info(msg):
+  print "  [%s] %s" % (basename(argv[0]), msg)
+
+class PassThroughOptionParser(OptionParser):
+  """
+  An unknown option pass-through implementation of OptionParser.
+
+  When unknown arguments are encountered, bundle with largs and try again,
+  until rargs is depleted.  
+
+  sys.exit(status) will still be called if a known argument is passed
+  incorrectly (e.g. missing arguments or bad argument types, etc.)        
+  """
+  def _process_args(self, largs, rargs, values):
+    while rargs:
+      try:
+        OptionParser._process_args(self,largs,rargs,values)
+      except (BadOptionError,AmbiguousOptionError), e:
+        largs.append(e.opt_str)
+
+def main():
+  usage = "%s <options> <options> [input(s)]" % basename(argv[0])
+  parser = PassThroughOptionParser(usage=usage, description="")
+  parser.add_option("--pattern", metavar="<pattern>", \
+      help="specify a custom identifier pattern", \
+      default="%(name)s-%(year)s-%(three)s")
+  parser.add_option("--vrl-state", metavar="<string>", \
+      help="specify a default VRLSTATE value", default="public")
+  parser.add_option("--vrl-status", metavar="<string>", \
+      help="specify a default STATUS value", default="published")
+  parser.add_option("--vrl-project", metavar="<string>", \
+      help="specify a default PROJECT value", default="brain")
+  parser.add_option("--vrl-theme", metavar="<string>", \
+      help="specify a default THEME value", default="medicine")
+  parser.add_option("--vrl-addedby", metavar="<string>", \
+      help="specify a default ADDED-BY value", default="nobody")
+  parser.add_option("--select", metavar="<file>", \
+      help="specify a file listing which bibtex entries to select")
+  parser.add_option("--output-list", metavar="<filename>", \
+      help="write the identifiers to a list")
+  parser.add_option("--output-sub", metavar="<filename>", \
+      help="write a substitution rule")
+  parser.add_option("--output-bib", metavar="<filename>", \
+      help="write the entries to a bibtex database file")
+  parser.add_option("--output-vrl", metavar="<dirname>", \
+      help="write the entries to directory for the vrlweb")
+
+  opts, pos = parser.parse_args()
+
+  if len(argv) < 2 or len(pos) < 1:
+    parser.print_help()
+    print "\nDescription:\n%s" % __doc__
+    return
+
+  infns = pos
+
+  info("starting")
+
+  info("input file count: %d" % len(infns))
+
+  select = None
+  if opts.select:
+    select = [line.strip() for line in open (opts.select)]
+
+  outbib = {} 
+  bids = {} 
+  dupes = 0
+  for infn in infns:
+    info("reading input: %s" % infn)
+    from pybtex.database.input import bibtex
+    parser = bibtex.Parser()
+    inbib = parser.parse_file(infn)
+
+    info("processing entries")
+    for bid in inbib.entries:
+        entry = inbib.entries[bid]
+        fields = entry.fields
+        authors = entry.persons["author"]
+        try:
+            if select and bid not in select:
+              info("...skipping entry (not selected): %s" % bid)
+            else:
+              values = {}
+              values["bid"] = bid
+              values["year"] = fields["year"]
+              values["name"] = scrub("".join(authors[0].last())).title()
+              values["lname"] = values["name"].lower()
+              values["uname"] = values["name"].upper()
+              values["word"] = title2word(fields["title"]).title()
+              values["lword"] = values["word"].lower()
+              values["uword"] = values["word"].upper()
+              values["three"] = title2three(fields["title"]).upper()
+              nbid = opts.pattern % values
+              if entry not in outbib:
+                outbib[nbid] = entry
+                info("...processed entry: %s" % nbid)
+              else:
+                info("...skipping duplicate entry: %s" % nbid)
+                dupes += 1
+              bids[nbid] = bid 
+        except(KeyError):
+            continue
+
+  info("duplicate count: %d" % dupes)
+  info("entry total count: %d" % len(outbib))
+
+  if opts.output_list:
+    info("writing output entry list: %s" % opts.output_list) 
+    outf = open(opts.output_list, "w")
+    for key in outbib.keys():
+      outf.write("%s\n" % key)
+    outf.close()
+
+  if opts.output_sub:
+    info("writing output entry sub: %s" % opts.output_sub) 
+    outf = open(opts.output_sub, "w")
+    for key in bids.keys():
+      outf.write("s/%s/%s/g\n" % (bids[key], key))
+    outf.close()
+
+  if opts.output_bib:
+    from pybtex.database import BibliographyData
+    from pybtex.plugin import Plugin 
+    from pybtex.database.output import BaseWriter 
+    from pybtex.database.output.bibtex import Writer
+
+    outstr = Writer(BaseWriter(Plugin())).to_string(BibliographyData(outbib))
+
+    info("writing output bibtex database: %s" % opts.output_bib) 
+    outf = open(opts.output_bib, "w")
+    outf.write(outstr.encode('utf8'))
+    outf.close()
+
+  if opts.output_vrl:
+    info("writing output vrl files: %s" % opts.output_vrl) 
+
+    if not exists(opts.output_vrl):
+      makedirs(opts.output_vrl)
+
+    for key in outbib.keys():
+      outfn = join(opts.output_vrl, key)
+
+      entry = outbib[key]
+      fields = entry.fields
+      names = []
+      for person in entry.persons["author"]:
+        von_last = ' '.join(person.prelast_names + person.last_names)
+        jr = ' '.join(person.lineage_names)
+        first = ' '.join(person.first_names + person.middle_names)
+        name = ' '.join(part for part in (first, jr, von_last) if part)
+        names.append(name)
+      
+      outf = open(outfn, "w")
+      outf.write("DOCTYPE: %s\n" % entry.type)
+      outf.write("DATE-ADDED: %s\n" % strftime("%c"))
+      outf.write("ADDED-BY: %s\n" % opts.vrl_addedby)
+      outf.write("VRLSTATE: %s\n" % opts.vrl_state)
+      outf.write("STATUS: %s\n" % opts.vrl_status)
+      outf.write("PROJECT: %s\n" % opts.vrl_project)
+      outf.write("THEME: %s\n" % opts.vrl_theme)
+      outf.write("AUTHOR: %s\n" % scrub(" and ".join(names))) 
+      for field in entry.fields.keys():
+        outf.write("%s: %s\n" % (field.upper(), scrub(entry.fields[field])))
+      outf.close()
+
+  info("finished")
+
+if __name__ == "__main__":
+    main()

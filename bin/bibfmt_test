@@ -1,0 +1,8 @@
+#! /bin/bash
+
+cd $(dirname $0)/..
+
+tmpfn=/tmp/${RANDOM}.bib
+./bin/bibfmt share/input.bib --output-bib ${tmpfn} > /dev/null
+diff ${tmpfn} share/output.bib > /dev/null
+exit $?

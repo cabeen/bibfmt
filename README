@@ -1,0 +1,38 @@
+A tool for cleaning up bibtex databases to enforce uniform and unique
+identifiers.  The command must include an input bibtex file(s) and options to
+specify th desired output.  Each entry is processed to use a new identifier,
+and duplicated entries are excluded.  The new identifier can be specified using
+python's dictionary substitution.  The following variables are available:
+
+  bid: the original bibtex identifier
+  year: the year of publication
+  lname: the lowercase last name of the first author
+  name: the capitalized last name of the first author
+  uname: the uppercase last name of the first author
+  lword: the lowercase first word of the title
+  word: the capitalized first word of the title
+  uword: the uppercase first word of the title
+  lthree: the lowercase three letter identifier of the title
+  three: the capitalized three letter identifier of the title
+  uthree: the uppercase three letter identifier of the title
+
+All non-ASCII and non-alphabetic characters are removed, and title-derived
+variables omit a number of stop works (e.g. "a", "an", "the", etc.).  As an
+example, the identifier pattern "%(lname)s%(year)s%(word)s" produces a format
+similar to Google Scholar:
+
+  @article{langmead2009ultrafast,
+    title={Ultrafast and memory-efficient alignment of 
+      short DNA sequences to the human genome},
+    author={Langmead, Ben and Trapnell, Cole and Pop, Mihai 
+      and Salzberg, Steven L and others},
+    journal={Genome biol},
+    volume={10},
+    number={3},
+    pages={R25},
+    year={2009}
+  }
+
+This tool is based on the very nice package Pybtex (http://pybtex.org).
+
+Author: Ryan Cabeen, cabeen@gmail.com
